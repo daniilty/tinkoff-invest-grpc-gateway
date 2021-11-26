@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package schema;
+
+option go_package = "./;schema";
+
+import "google/protobuf/timestamp.proto";
+
+service TinkoffInvestAPIGateway {
+  // Returns candles historical data
+  rpc GetCandles(CandlesRequest) returns (CandlesResponse) {}
+}
+
+message CandlesRequest {
+  string figi = 1;
+  uint32 interval = 2;
+  google.protobuf.Timestamp from = 3;
+  google.protobuf.Timestamp to = 4;
+}
+
+message CandlesResponse {
+  repeated Candle candles = 1;
+}
+
+message Candle {
+  double open_price = 1;
+  double close_price = 2;
+  double low_price = 3;
+  double high_price = 4;
+  google.protobuf.Timestamp ts = 5;
+  string interval = 6;
+  double volume = 7;
+}
+
