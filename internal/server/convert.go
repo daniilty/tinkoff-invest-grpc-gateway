@@ -2,6 +2,8 @@ package server
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 
 	invest "github.com/TinkoffCreditSystems/invest-openapi-go-sdk"
 	schema "github.com/daniilty/tinkoff-invest-grpc-schema"
@@ -11,7 +13,15 @@ import (
 func convertIntervalToTinkoff(interval uint32) (invest.CandleInterval, error) {
 	converted, ok := intervals[interval]
 	if !ok {
-		return "", fmt.Errorf("invalid interval: %d", interval)
+		available := make([]string, 0, len(intervals))
+
+		for v := range intervals {
+			available = append(available, strconv.Itoa(int(v)))
+		}
+
+		availableJoined := strings.Join(available, ", ")
+
+		return "", fmt.Errorf("invalid interval: %d, available are: %s", interval, availableJoined)
 	}
 
 	return converted, nil

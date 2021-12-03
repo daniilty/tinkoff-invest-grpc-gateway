@@ -14,9 +14,5 @@ func validateIntervals(from time.Time, to time.Time, interval int64) error {
 		return fmt.Errorf("from cannot be after to")
 	}
 
-	if to.Unix()-from.Unix() < interval {
-		return fmt.Errorf("interval is too big")
-	}
-
 	return nil
 }
